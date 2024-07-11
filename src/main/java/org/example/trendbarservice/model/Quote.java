@@ -1,11 +1,13 @@
 package org.example.trendbarservice.model;
 
-public class Quote {
-    private String symbol;
-    private double price;
-    private long timestamp;
+import java.time.Instant;
 
-    public Quote(String symbol, double price, long timestamp) {
+public class Quote {
+    private final String symbol;
+    private final double price;
+    private final Instant timestamp;
+
+    public Quote(String symbol, double price, Instant timestamp) {
         this.symbol = symbol;
         this.price = price;
         this.timestamp = timestamp;
@@ -19,7 +21,7 @@ public class Quote {
         return price;
     }
 
-    public long getTimestamp() {
+    public Instant getTimestamp() {
         return timestamp;
     }
 }

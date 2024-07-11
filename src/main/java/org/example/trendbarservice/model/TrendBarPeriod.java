@@ -1,17 +1,18 @@
 package org.example.trendbarservice.model;
 
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+
 public enum TrendBarPeriod {
-    M1 (60_000),
-    H1 (3_600_000),
-    D1 (86_400_000);
+    M1,
+    H1,
+    D1;
 
-    private final long millis;
-
-    TrendBarPeriod(long millis) {
-        this.millis = millis;
-    }
-
-    private long getMillis() {
-        return millis;
+    public Instant truncateTimestamp(Instant timestamp) {
+        return switch (this) {
+            case M1 -> timestamp.truncatedTo(ChronoUnit.MINUTES);
+            case H1 -> timestamp.truncatedTo(ChronoUnit.HOURS);
+            case D1 -> timestamp.truncatedTo(ChronoUnit.DAYS);
+        };
     }
 }
