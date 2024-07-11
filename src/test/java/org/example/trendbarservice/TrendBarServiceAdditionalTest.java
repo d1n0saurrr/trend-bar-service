@@ -66,11 +66,11 @@ public class TrendBarServiceAdditionalTest {
 
         // Assert TBs are correct
         for (var entry : quotes.entrySet()) {
-            double openPrice = entry.getValue().get(0).getPrice();
-            double closePrice = entry.getValue().get(entry.getValue().size() - 1).getPrice();
-            double highPrice = entry.getValue().stream().mapToDouble(Quote::getPrice).max().orElse(Double.NaN);
-            double lowPrice = entry.getValue().stream().mapToDouble(Quote::getPrice).min().orElse(Double.NaN);
-            Instant timestamp = entry.getValue().get(0).getTimestamp().truncatedTo(MINUTES);
+            double openPrice = entry.getValue().get(0).price();
+            double closePrice = entry.getValue().get(entry.getValue().size() - 1).price();
+            double highPrice = entry.getValue().stream().mapToDouble(Quote::price).max().orElse(Double.NaN);
+            double lowPrice = entry.getValue().stream().mapToDouble(Quote::price).min().orElse(Double.NaN);
+            Instant timestamp = entry.getValue().get(0).timestamp().truncatedTo(MINUTES);
             TrendBar tb = new TrendBar(entry.getKey(), openPrice, closePrice, highPrice, lowPrice, M1, timestamp);
 
             List<TrendBar> trendBars = inMemoryTrendBarStorage.getTrendBars(entry.getKey(), "M1", from, null);
@@ -106,15 +106,15 @@ public class TrendBarServiceAdditionalTest {
         for (var entry : quotes.entrySet()) {
             // Count TBs manually for comparing
             List<TrendBar> minuteTBs = entry.getValue().stream()
-                    .collect(Collectors.groupingBy(q -> q.getTimestamp().truncatedTo(MINUTES)))
+                    .collect(Collectors.groupingBy(q -> q.timestamp().truncatedTo(MINUTES)))
                     .entrySet().stream()
                     .map(e -> {
                         List<Quote> periodQuotes = e.getValue();
                         Instant timestamp = e.getKey();
-                        double openPrice = periodQuotes.get(0).getPrice();
-                        double closePrice = periodQuotes.get(periodQuotes.size() - 1).getPrice();
-                        double highPrice = periodQuotes.stream().mapToDouble(Quote::getPrice).max().orElse(Double.NaN);
-                        double lowPrice = periodQuotes.stream().mapToDouble(Quote::getPrice).min().orElse(Double.NaN);
+                        double openPrice = periodQuotes.get(0).price();
+                        double closePrice = periodQuotes.get(periodQuotes.size() - 1).price();
+                        double highPrice = periodQuotes.stream().mapToDouble(Quote::price).max().orElse(Double.NaN);
+                        double lowPrice = periodQuotes.stream().mapToDouble(Quote::price).min().orElse(Double.NaN);
                         return new TrendBar(entry.getKey(), openPrice, closePrice, highPrice, lowPrice, M1, timestamp);
                     })
                     .sorted(Comparator.comparing(TrendBar::getTimestamp))

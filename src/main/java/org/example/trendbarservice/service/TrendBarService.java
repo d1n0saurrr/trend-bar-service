@@ -52,8 +52,8 @@ public class TrendBarService implements InitializingBean, DisposableBean {
     }
 
     private void processQuote(Quote quote) {
-        Instant truncatedToMinutes = quote.getTimestamp().truncatedTo(ChronoUnit.MINUTES);
-        currentTBs.compute(new SymbolTime(quote.getSymbol(), truncatedToMinutes), (k, tb) -> {
+        Instant truncatedToMinutes = quote.timestamp().truncatedTo(ChronoUnit.MINUTES);
+        currentTBs.compute(new SymbolTime(quote.symbol(), truncatedToMinutes), (k, tb) -> {
             if (tb != null) {
                 return tb.updatePrices(quote);
             } else {

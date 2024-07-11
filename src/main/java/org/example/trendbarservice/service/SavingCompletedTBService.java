@@ -38,10 +38,7 @@ public class SavingCompletedTBService implements InitializingBean, DisposableBea
         Instant now = Instant.now();
         Instant nexMinute = Instant.now().plus(1, ChronoUnit.MINUTES).truncatedTo(ChronoUnit.MINUTES);
         long initialDelay = ChronoUnit.MILLIS.between(now, nexMinute);
-        scheduler.scheduleAtFixedRate(() -> {
-            System.out.println("HHHHHHHHHHHH");
-            saveCompletedTBs();
-        }, initialDelay, 60_000, TimeUnit.MILLISECONDS);
+        scheduler.scheduleAtFixedRate(this::saveCompletedTBs, initialDelay, 60_000, TimeUnit.MILLISECONDS);
     }
 
     public void saveCompletedTBs() {

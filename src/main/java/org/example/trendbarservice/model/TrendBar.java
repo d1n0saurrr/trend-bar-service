@@ -24,13 +24,13 @@ public class TrendBar {
     }
 
     public TrendBar(Quote quote) {
-        this.symbol = quote.getSymbol();
-        this.openPrice = quote.getPrice();
-        this.closePrice = quote.getPrice();
-        this.highPrice = quote.getPrice();
-        this.lowPrice = quote.getPrice();
+        this.symbol = quote.symbol();
+        this.openPrice = quote.price();
+        this.closePrice = quote.price();
+        this.highPrice = quote.price();
+        this.lowPrice = quote.price();
         this.period = TrendBarPeriod.M1;
-        this.timestamp = quote.getTimestamp().truncatedTo(ChronoUnit.MINUTES);
+        this.timestamp = quote.timestamp().truncatedTo(ChronoUnit.MINUTES);
     }
 
     public static TrendBar of(TrendBar trendBar, TrendBarPeriod period) {
@@ -67,15 +67,15 @@ public class TrendBar {
     }
 
     public TrendBar updatePrices(Quote quote) {
-        if (quote.getPrice() > highPrice) {
-            highPrice = quote.getPrice();
+        if (quote.price() > highPrice) {
+            highPrice = quote.price();
         }
 
-        if (quote.getPrice() < lowPrice) {
-            lowPrice = quote.getPrice();
+        if (quote.price() < lowPrice) {
+            lowPrice = quote.price();
         }
 
-        closePrice = quote.getPrice();
+        closePrice = quote.price();
 
         return this;
     }
